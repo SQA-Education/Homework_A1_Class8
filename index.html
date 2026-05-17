@@ -20,9 +20,14 @@
 <div style="margin:16px 0"><label style="font-weight:600;color:#5B5091">Your Name:</label>
 <input type="text" class="name-input" id="studentName" placeholder="Type your full name here..."></div>
 <div style="margin:10px 0"><label style="font-weight:600;color:#5B5091">Your Class:</label>
-<select class="class-select" id="studentClass"><option value="">-- Select your class --</option>
-<option value="3087">3087 — Mon/Wed 11:00 AM (Eunice)</option>
-<option value="3097">3097 — Tue/Thu 6:30 PM (Eunice)</option></select></div>
+<input type="hidden" id="teacherName" value="">
+<select class="class-select"  id="className" onchange="setTeacher(this)">
+<option value="">-- Select your class --</option>
+<optgroup label="Eunice Salazar">
+<option value="3087" data-teacher="Eunice Salazar">3087 - Mon/Wed 11:00 AM (Eunice)</option>
+<option value="3097" data-teacher="Eunice Salazar">3097 - Tue/Thu 6:30 PM (Eunice)</option>
+</optgroup>
+</select></div>
 <button class="btn btn-primary" onclick="startHomework()" style="width:100%">Start Homework →</button>
 </div></div>
 
@@ -139,6 +144,8 @@
 </div>
 
 <script>
+function setTeacher(sel){var opt=sel.options[sel.selectedIndex];var t=document.getElementById("teacherName");if(t)t.value=opt?(opt.getAttribute("data-teacher")||""):"";}
+
 const SESSION='Class 8';
 const SPEAKING_LIMIT=20; // Classes 5-8 = 20s
 let sn='',sClass='',sc={l:0,v:0,w:0,s:0,g:0};
@@ -149,7 +156,7 @@ const vocabPairs=[{w:'Teach',d:'A teacher does this at school'},{w:'Drive',d:'A 
 function goTo(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
 function startHomework(){
   sn=document.getElementById('studentName').value.trim();
-  sClass=document.getElementById('studentClass').value;
+  sClass=document.getElementById('className').value;
   if(!sn){alert('Please enter your name');return;}
   if(!sClass){alert('Please select your class');return;}
   goTo('s1');
@@ -328,7 +335,7 @@ function submitToTeacher(){
   const st=spokenTranscript||document.getElementById('speakTranscriptText')?document.getElementById('speakTranscriptText').textContent.trim():'';
   const formData=new FormData();
   formData.append('entry.154629934',sn||document.getElementById('studentName').value.trim());
-  formData.append('entry.771629595',sClass||document.getElementById('studentClass').value||'');
+  formData.append('entry.771629595',sClass||document.getElementById('className').value||'');
   formData.append('entry.1564061356',SESSION);
   formData.append('entry.1994438750',sc.l+'/3');
   formData.append('entry.1169985852',sc.v+'/6');
