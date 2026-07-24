@@ -20,9 +20,11 @@
 <div style="margin:16px 0"><label style="font-weight:600;color:#5B5091">Your Name:</label>
 <input type="text" class="name-input" id="studentName" placeholder="Type your full name here..."></div>
 <div style="margin:10px 0"><label style="font-weight:600;color:#5B5091">Your Class:</label>
-<select class="class-select" id="studentClass"><option value="">-- Select your class --</option>
-<option value="3087">3087 — Mon/Wed 11:00 AM (Eunice)</option>
-<option value="3097">3097 — Tue/Thu 6:30 PM (Eunice)</option></select></div>
+<select class="class-select" id="studentClass">
+<option value="">-- Select your class --</option>
+<option value="3087" data-teacher="Eunice Salazar">3087 - Mon/Wed 11:00 AM (Eunice)</option>
+<option value="3099" data-teacher="Eunice Salazar">3099 - Tue/Thu 6:30 PM (Eunice)</option>
+</select></div>
 <button class="btn btn-primary" onclick="startHomework()" style="width:100%">Start Homework →</button>
 </div></div>
 
