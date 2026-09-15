@@ -225,11 +225,11 @@ function startRec(){
   recognition.onstart=function(){document.getElementById('statusText').textContent='Microphone active - speak now';};
   recognition.onresult=function(e){
     var sessionFinal='';var interim='';
-    for(var i=0;i<e.results.length;i++){
-      if(e.results[i].isFinal)sessionFinal+=e.results[i][0].transcript+' ';
+    for(var i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal)persistedSpokenText+=e.results[i][0].transcript+' ';
       else interim+=e.results[i][0].transcript;
     }
-    spokenTranscript=(persistedSpokenText+sessionFinal).trim();
+    if(persistedSpokenText.length>2000)persistedSpokenText=persistedSpokenText.slice(0,2000);spokenTranscript=persistedSpokenText.trim();
     var txt=document.getElementById('speakTranscriptText');
     if(txt){txt.textContent=(spokenTranscript+' '+interim).trim()||'Listening...';}
   };
@@ -243,7 +243,7 @@ function startRec(){
       if(st)st.textContent='Error: '+e.error+' - tap to try again';
     }
   };
-  recognition.onend=function(){if(isRec){persistedSpokenText=spokenTranscript?spokenTranscript+' ':'';try{recognition.start();}catch(err){}}};
+  recognition.onend=function(){if(isRec){try{recognition.start();}catch(err){}}};
   try{recognition.start();}catch(e){
     document.getElementById('statusText').textContent='Could not start: '+e.message;
     isRec=false;clearInterval(recTimer);
