@@ -143,7 +143,7 @@
 <script>
 const SESSION='Class 8';
 const SPEAKING_LIMIT=20; // Classes 5-8 = 20s
-let sn='',sClass='',sc={l:0,v:0,w:0,s:0,g:0};
+let sn='',sClass='',sc={l:0,v:0,w:0,s:0,g:0};try{window.scores=(typeof scores!=='undefined'?scores:(typeof sc!=='undefined'?sc:null));}catch(e){}
 let isRec=false,recTime=0,recTimer=null,recognition=null;let writingText='',spokenTranscript='',persistedSpokenText='';
 const answers={lq1:'b',lq2:'c',lq3:'b',};let selectedQ={};
 const dialogue=[{s:'A',t:'Do you work at a hospital?',g:'m'},{s:'B',t:'Yes, I do. I am a nurse.',g:'f'},{s:'A',t:'Does your husband work too?',g:'m'},{s:'B',t:'Yes, he does. He drives a taxi.',g:'f'},{s:'A',t:'Do you cook dinner every day?',g:'m'},{s:'B',t:'No, I don\'t. My husband cooks. He is a good cook!',g:'f'},{s:'A',t:'Does he like his job?',g:'m'},{s:'B',t:'Yes, he does. He likes to drive.',g:'f'},];
@@ -526,7 +526,7 @@ try{
     document.body.appendChild(bar);
     document.getElementById('sqa-fresh').onclick=function(){localStorage.removeItem(KEY);bar.remove();};
     document.getElementById('sqa-resume').onclick=function(){try{
-      for(var k in st.g){try{window[k]=st.g[k];}catch(e){}}
+      for(var k in st.g){try{if(window[k]&&typeof window[k]==='object'&&st.g[k]&&typeof st.g[k]==='object'&&!Array.isArray(window[k])){for(var kk in st.g[k])window[k][kk]=st.g[k][kk];}else{window[k]=st.g[k];}}catch(e){}}
       for(var id in st.h){var el=document.getElementById(id);if(el)el.innerHTML=st.h[id];}
       var fs=fields();(st.f||[]).forEach(function(v,i){if(fs[i]!==undefined){try{fs[i].value=v;}catch(e){}}});
       var wc=document.getElementById('wc'),wr=document.getElementById('writing');if(wc&&wr)try{wc.textContent=wr.value.trim().split(/\s+/).filter(Boolean).length;}catch(e){}
