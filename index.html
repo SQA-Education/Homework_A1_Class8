@@ -223,12 +223,10 @@ function startRec(){
   recognition=new SR();
   recognition.continuous=true;recognition.interimResults=true;recognition.lang='en-US';
   recognition.onstart=function(){document.getElementById('statusText').textContent='Microphone active - speak now';};
-  recognition.onresult=function(e){
+  recognitionvar __committed=(typeof persistedSpokenText!=='undefined'?persistedSpokenText:'')||'';
+.onresult=function(e){
     var sessionFinal='';var interim='';
-    for(var i=e.resultIndex;i<e.results.length;i++){
-      if(e.results[i].isFinal)persistedSpokenText+=e.results[i][0].transcript+' ';
-      else interim+=e.results[i][0].transcript;
-    }
+    var __f='';for(var i=0;i<e.results.length;i++){if(e.results[i].isFinal)__f+=e.results[i][0].transcript+' ';else interim+=e.results[i][0].transcript+' ';}persistedSpokenText=(__committed+' '+__f).replace(/\s+/g,' ').trim();
     if(persistedSpokenText.length>2000)persistedSpokenText=persistedSpokenText.slice(0,2000);spokenTranscript=persistedSpokenText.trim();
     var txt=document.getElementById('speakTranscriptText');
     if(txt){txt.textContent=(spokenTranscript+' '+interim).trim()||'Listening...';}
@@ -243,7 +241,7 @@ function startRec(){
       if(st)st.textContent='Error: '+e.error+' - tap to try again';
     }
   };
-  recognition.onend=function(){if(isRec){try{recognition.start();}catch(err){}}};
+  recognition.onend=function(){__committed=persistedSpokenText;if(isRec){try{recognition.start();}catch(err){}}};
   try{recognition.start();}catch(e){
     document.getElementById('statusText').textContent='Could not start: '+e.message;
     isRec=false;clearInterval(recTimer);
